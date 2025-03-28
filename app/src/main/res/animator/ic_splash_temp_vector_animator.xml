@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="2000"
+    android:repeatMode="reverse"
+    android:repeatCount="10">
+
+    <propertyValuesHolder
+        android:propertyName="scaleX"
+        android:valueFrom="0.1"
+        android:valueTo="0.4"
+        android:valueType="floatType" />
+
+    <propertyValuesHolder
+        android:propertyName="scaleY"
+        android:valueFrom="0.1"
+        android:valueTo="0.4"
+        android:valueType="floatType" />
+
+</objectAnimator>

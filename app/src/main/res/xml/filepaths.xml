@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="temporary_camera_images"
+        path="Android/data/com.mrgoodcat.hitmeup/files/Pictures" />
+</paths>

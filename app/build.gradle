@@ -1,0 +1,182 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.room'
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
+android {
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.mrgoodcat.hitmeup"
+        minSdk 23
+        targetSdk 35
+        versionCode 12
+        versionName "1.5.9"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        applicationVariants.all {
+            variant ->
+                variant.outputs.each { output ->
+                    if (output.name == "release") {
+                        def name = "hit-me-up-release-v." + versionCode + ".apk"
+                        output.outputFileName = name
+                    } else {
+                        def name = "hit-me-up-debug-v." + versionCode + ".apk"
+                        output.outputFileName = name
+                    }
+                }
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexEnabled true
+            debuggable false
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        viewBinding = true
+        compose true
+    }
+    namespace 'com.mrgoodcat.hitmeup'
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${rootProject.buildDir.absolutePath}/reports",
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${rootProject.buildDir.absolutePath}/reports",
+        ]
+    }
+
+    room {
+        schemaDirectory "$projectDir/schemas"
+    }
+}
+
+composeCompiler {
+    enableStrongSkippingMode = true
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+hilt {
+    enableAggregatingTask = true
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+
+    implementation platform('com.google.firebase:firebase-bom:33.9.0')
+    implementation 'com.firebaseui:firebase-ui:8.0.0'
+    implementation 'com.google.firebase:firebase-database-ktx:21.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-directboot:24.1.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation "com.google.firebase:firebase-storage"
+    implementation("com.google.firebase:firebase-auth")
+
+    implementation 'com.facebook.android:facebook-login:18.0.2'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
+    implementation 'androidx.activity:activity-ktx:1.10.0'
+    implementation 'androidx.activity:activity-compose:1.10.0'
+    implementation 'androidx.compose.ui:ui:1.7.6'
+    implementation 'androidx.compose.ui:ui-tooling-preview:1.7.6'
+    implementation platform('androidx.compose:compose-bom:2025.01.00')
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation files('../hit-me-up-creds.aar')
+
+    ksp 'androidx.room:room-compiler:2.6.1'
+    implementation "androidx.room:room-ktx:2.6.1"
+    implementation "androidx.room:room-paging:2.6.1"
+    implementation "androidx.room:room-runtime:2.6.1"
+    implementation "androidx.room:room-common:2.6.1"
+    annotationProcessor "androidx.room:room-compiler:2.6.1"
+
+    implementation "androidx.credentials:credentials:1.5.0-rc01"
+    implementation "androidx.credentials:credentials-play-services-auth:1.5.0-rc01"
+    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
+
+    ksp 'androidx.hilt:hilt-compiler:1.2.0'
+    implementation "androidx.hilt:hilt-navigation-compose:1.2.0"
+    implementation "androidx.hilt:hilt-navigation-fragment:1.2.0"
+
+    ksp 'com.google.dagger:hilt-compiler:2.55'
+    implementation 'com.google.dagger:hilt-android:2.55'
+    implementation "com.google.dagger:dagger-android:2.55"
+    implementation "com.google.dagger:dagger-android-support:2.55"
+
+    ksp 'com.google.dagger:dagger-compiler:2.55'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.55'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
+    implementation "androidx.paging:paging-runtime-ktx:3.3.5"
+    implementation "androidx.paging:paging-compose-android:3.3.5"
+    implementation "androidx.compose.runtime:runtime-livedata:1.7.6"
+
+    implementation "androidx.navigation:navigation-compose:2.8.5"
+
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+
+    implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
+
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.2")
+    implementation "com.squareup.moshi:moshi:1.15.2"
+
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    // For local unit tests
+    testImplementation 'androidx.test.ext:junit-ktx:1.2.1'
+    testImplementation 'androidx.test:runner:1.6.2'
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "androidx.test:core:1.6.1"
+    testImplementation "org.mockito:mockito-core:4.0.0"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
+    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation 'com.google.dagger:hilt-android-testing:2.55'
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
+    testImplementation "com.google.truth:truth:1.0.1"
+    testImplementation "org.hamcrest:hamcrest-all:1.3"
+    testImplementation "org.robolectric:robolectric:4.14"
+    testImplementation 'com.google.firebase:firebase-core:21.1.1'
+    testImplementation 'com.google.firebase:firebase-auth-ktx:23.1.0'
+    testImplementation 'com.google.firebase:firebase-plugins:2.0.0'
+
+}
+

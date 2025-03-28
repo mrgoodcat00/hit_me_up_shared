@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_user_name_hint">User Name</string>
+    <string name="login_user_pass_hint">Password</string>
+    <string name="login_button_login_text">Let me in!</string>
+    <string name="login_error_empty_name">User name is empty</string>
+    <string name="login_error_empty_pass">Password is empty</string>
+</resources>
