@@ -74,3 +74,4 @@ kotlin-ide/!/.idea/
 /.idea/
 /hit-me-up-creds.aar
 /app/schemas/com.mrgoodcat.hitmeup.data.db.HitMeUpDatabase/1.json
+/app/google-services.json
